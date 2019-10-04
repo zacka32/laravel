@@ -25,7 +25,7 @@ class IndexController extends Controller
     		Session::put('idgroup', $data->ID_GROUP);
     		Session::put('superuser', $data->superuser);
 
-    		return view('content/home');
+    		return redirect ('hrd/dashboard');
     		 // return view('siswa/edit', ['siswa' => $siswa]);
     	 	} else {
 
@@ -46,6 +46,4 @@ class IndexController extends Controller
     function home() {
     	return view ('content/home');
     }
-
-    
 }

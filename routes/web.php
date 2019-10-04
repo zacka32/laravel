@@ -18,6 +18,6 @@ Route::get('/', function () {
 Route::get('hrd', 'IndexController@index');
 Route::post('postlogin', 'IndexController@login');
 Route::get('hrd/home', 'IndexController@home');
-
+Route::get('hrd/dashboard', 'MenuController@mainmenu');
 
 // Route::get('home', 'HomeController@index')->name('home');

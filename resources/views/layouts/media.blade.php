@@ -1,3 +1,7 @@
+<?php 
+use App\Menu;
+use App\Submenu;
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,37 +11,37 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
- <link rel="stylesheet" href="adminlte/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="adminlte/bootstrap/css/bootstrap-toggle.min.css">
+ <link rel="stylesheet" href="../adminlte/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" href="../adminlte/bootstrap/css/bootstrap-toggle.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="adminlte/bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="../adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
 
    <!-- Select2 -->
-  <link rel="stylesheet" href="adminlte/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="../adminlte/plugins/select2/select2.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="adminlte/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/AdminLTE.min.css">
     <!-- <link rel="stylesheet" href="dist/css/AdminLTE.css"> -->
   
-  <link rel="stylesheet" href="adminlte/dist/css/css.css">
-  <link rel="stylesheet" href="adminlte/dist/css/font.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/css.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/font.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="adminlte/dist/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="adminlte/css/css.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../adminlte/css/css.css">
 
-  <link rel="stylesheet" href="adminlte/plugins/datatables/dataTables.bootstrap.css"> 
+  <link rel="stylesheet" href="../adminlte/plugins/datatables/dataTables.bootstrap.css"> 
   <!-- <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">  -->
-  <link rel="stylesheet" href="adminlte/dist/css/buttons.dataTables.min.css">
-  <link rel="stylesheet" href="adminlte/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.css">
-  <link rel="stylesheet" href="adminlte/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
-  <link rel="stylesheet" href="adminlte/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="../adminlte/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.css">
+  <link rel="stylesheet" href="../adminlte/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css">
+  <link rel="stylesheet" href="../adminlte/plugins/iCheck/flat/blue.css">
 
  <!-- <link type="text/css" rel="stylesheet" media="all" href="css/chat.css" /> -->
-<script src="adminlte/dist/js/jquery-1.11.0.min.js"></script> 
+<script src="../adminlte/dist/js/jquery-1.11.0.min.js"></script> 
 
 <!-->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,8 +50,8 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
     <!-- This is what you need code notification  -->
-  <script src="adminlte/dist/sweetalert-dev.js"></script>
-  <link rel="stylesheet" href="adminlte/dist/sweetalert.css">
+  <script src="../adminlte/dist/sweetalert-dev.js"></script>
+  <link rel="stylesheet" href="../adminlte/dist/sweetalert.css">
   
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -83,7 +87,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img width="60" src="adminlte/png/Engineer.png" border=0 class="img-circle" alt="User Image" >
+          <img width="60" src="../adminlte/png/Engineer.png" border=0 class="img-circle" alt="User Image" >
         </div>
         <div class="pull-left info">
           <p>{{session('nama_lengkap')}}</p>
@@ -120,32 +124,35 @@
           </a>
           
         </li>
-            <?php 
-             function get_menu_child($parent){
-              // $menu = \App\Menu::where('id_main',$parent)->get();
-              $parent = \App\Menu::where('id_main')->first();
-              ?>
-              <li class="treeview">
-                <a href="{{link($parent->link)}}">
-                  <i class="fa {{$parent->gambar}}"></i>
-                  <span>{{$parent->nama_menu}}</span>
-                  @if(sizeof($menu)>0)
-                  <i class="fa fa-angle-left pull-right"></i>
-                  @endif
-                </a>
-                @if(sizeof($menu)>0)
-                <ul class="treeview-menu">
-                 
-                <?php
-                  foreach ($menu as $key) {
-                    get_menu_child($key->id);
-                  }
-                  ?>
-                </ul>
-                @endif
-              </li>
-            <?php } ?>
-		    <li>
+        
+         <?php
+          $mainmenu = \App\Menu::where('aktif','Y')->orderBy('urutan')->get(); ?>
+          @foreach ($mainmenu as $key)
+            <li class="treeview">
+            @if(empty($key->link))
+               <a> {{ $key->nama_menu }} </a>
+            @else
+              <a href="{{$key->link}}"><img src="../adminlte/{{$key->gambar}}" width='20'>&nbsp;&nbsp;&nbsp; <span>{{$key->nama_menu}}</span></a>
+            @endif
+          <!-- submenu query -->
+          <?php    $submenu = \App\Submenu::where('id_main',$key->id_main)->where('aktif','Y')->orderBy('urutan')->get(); ?>
+
+              @if(sizeof($submenu)>0)
+                  <ul class='treeview-menu'>
+                @foreach ($submenu as $sub)
+                    <li>
+                       <a href="{{$sub->link_sub}}"><img src="../adminlte/{{$sub->gambar}}" width='20'>&nbsp;&nbsp;&nbsp; <span>{{$sub->nama_sub}}</span></a>
+                    </li>
+                @endforeach
+                  </ul>
+                </li>
+              @else
+                </li>
+              @endif
+          @endforeach
+
+		    
+        <li>
           <a href="?module=password">
             <i class="fa fa-fw fa-gears"></i>
             <span>Ganti Password</span>
@@ -388,21 +395,21 @@
 
 
 <!-- jQuery 2.2.3 -->
-<script src="adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="adminlte/plugins/select2/select2.full.min.js"></script>
-<script src="adminlte/bootstrap/js/bootstrap.min.js"></script>
-<script src="adminlte/bootstrap/js/bootstrap-toggle.min.js"></script>
+<script src="../adminlte/plugins/select2/select2.full.min.js"></script>
+<script src="../adminlte/bootstrap/js/bootstrap.min.js"></script>
+<script src="../adminlte/bootstrap/js/bootstrap-toggle.min.js"></script>
 
 
 
-<script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="adminlte/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
-<script src="adminlte/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="../adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../adminlte/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+<script src="../adminlte/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
 
 <!-- Tes pdf datatables -->
-<script src="adminlte/dist/js/dataTables.buttons.min.js"></script>
+<script src="../adminlte/dist/js/dataTables.buttons.min.js"></script>
   <!-- <script src="dist/js/buttons.flash.min.js"></script>
 <script src="dist/js/jszip.min.js"></script>
 
@@ -413,17 +420,17 @@
 
 
 <!-- FastClick -->
-<script src="adminlte/plugins/fastclick/fastclick.js"></script>
+<script src="../adminlte/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="adminlte/dist/js/app.min.js"></script>
+<script src="../adminlte/dist/js/app.min.js"></script>
 <!-- SlimScroll 1.3.0 -->
-<script src="adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="../adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- 
 <script src="plugins/chartjs/Chart.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes)
 <script src="dist/js/pages/dashboard2.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="adminlte/dist/js/demo.js"></script>
+<script src="../adminlte/dist/js/demo.js"></script>
 
 <!-- <script type="text/javascript" src="js/chat.js"></script> -->
 <script>

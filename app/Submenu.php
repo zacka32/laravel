@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Submenu extends Model
 {
-     protected $table = 'mainmenu';
+     protected $table = 'submenu';
 }

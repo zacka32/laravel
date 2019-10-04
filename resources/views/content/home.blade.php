@@ -1,6 +1,6 @@
 @extends('layouts.media')
 @section('content')
 
-Halaman Utama
+		Halaman Dashboard
 
 @endsection
