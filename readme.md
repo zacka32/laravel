@@ -1,4 +1,4 @@
-Tutorial Laravel
+"Tutorial Laravel"
 1. Query Manual 
    insert USE DB;
     public function index() {
